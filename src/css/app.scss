@@ -1,1 +1,42 @@
 // app global css in SCSS form
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+.text-16 {
+  font-size: 16px;
+}
+
+.text-22 {
+  font-size: 22px;
+}
+
+.text-32 {
+  font-size: 32px;
+}
+
+.input-type {
+  border: 1px solid rgba(102, 102, 102, 35%);
+  border-radius: 12px !important;
+  font-size: 16px !important;
+}
+
+.line-height-default {
+  line-height: 0.1 !important;
+}
+
+.btn-default {
+  border-radius: 12px !important;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit !important;
+}
