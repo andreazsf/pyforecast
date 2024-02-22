@@ -89,6 +89,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import login from "../boot/firebase-login";
+import router from "src/router";
 
 const user = reactive({
   email: null,
@@ -102,6 +103,8 @@ const submit = async () => {
     try {
       await login(user);
       router.push("/dashboard");
+      router.reload();
+      // router.push({ name: 'dashboard' });
     } catch (err) {}
   }
 };
