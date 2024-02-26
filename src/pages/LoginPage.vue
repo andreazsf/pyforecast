@@ -62,7 +62,8 @@
                   class="row q-mb-xl q-mt-sm text-black justify-between"
                   style="margin-left: -6px"
                 >
-                  <q-checkbox v-model="right" label="Remember me" size="sm" />
+                  <!-- <q-checkbox v-model="right" label="Remember me" size="sm" /> -->
+                  <q-checkbox label="Remember me" size="sm" />
                   <div class="cursor-pointer q-mt-sm">Need help?</div>
                 </div>
 
@@ -89,7 +90,11 @@
 <script setup>
 import { ref, reactive } from "vue";
 import login from "../boot/firebase-login";
-import router from "src/router";
+// import routes from "src/router";
+import { useRouter, useRoute } from "vue-router";
+
+// Router
+const router = useRouter();
 
 const user = reactive({
   email: null,
@@ -102,9 +107,12 @@ const submit = async () => {
   if (form.value.validate()) {
     try {
       await login(user);
-      router.push("/dashboard");
-      router.reload();
+      router.push({ path: "/pyforecast" });
+      // setTimeout(() => {
+      //   router.reload();
+      // }, 3000);
       // router.push({ name: 'dashboard' });
+      // router.go();
     } catch (err) {}
   }
 };

@@ -2,6 +2,7 @@
   <q-layout view="lHh lpR fFf" class="bg-grey-1">
     <q-header class="bg-white text-grey-8" height-hint="64">
       <q-toolbar class="q__toolbar">
+        <!-- BTN to toggle left menu on mobile -->
         <q-btn
           flat
           dense
@@ -141,15 +142,34 @@
           class="text-grey-8 wrap column q-pa-lg q-gutter-y-md"
           style="min-height: 100vh"
         >
+          <q-item clickable class="my-list">
+            <q-item-section top avatar>
+              <q-avatar size="md">
+                <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              </q-avatar>
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label style="margin-left: -8px !important">
+                Jane Doe
+              </q-item-label>
+              <q-item-label style="margin-left: -8px !important" caption>
+                admin@admin.com
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+
           <q-item
-            class="q__drawer-item"
-            v-ripple
+            class="q__drawer-item my-list"
             v-for="link in links1"
             :key="link.text"
+            @click="router.push({ path: link.path })"
+            :active="linkActive === 'link.path'"
+            active-class="my-active-list"
             clickable
           >
             <q-item-section avatar>
-              <q-icon :name="link.icon" class="material-icons-outlined" />
+              <q-icon :name="link.icon" class="material-symbols-outlined" />
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ link.text }}</q-item-label>
@@ -172,13 +192,13 @@
               /></q-item-label>
             </q-item-section> -->
             <!-- <q-item-section avatar>
-              <q-icon :name="link.icon" class="material-icons-outlined" />
+              <q-icon :name="link.icon" class="material-symbols-outlined" />
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ link.text }}</q-item-label>
             </q-item-section> -->
             <q-item-section avatar>
-              <q-icon name="logout" class="material-icons-outlined" />
+              <q-icon name="logout" class="material-symbols-outlined" />
             </q-item-section>
             <q-item-section>
               <q-item-label>Logout</q-item-label>
@@ -190,7 +210,7 @@
             clickable
           >
             <q-item-section avatar>
-              <q-icon name="light_mode" class="material-icons-outlined" />
+              <q-icon name="light_mode" class="material-symbols-outlined" />
             </q-item-section>
             <q-item-section>
               <q-item-label>Light mode</q-item-label>
@@ -246,12 +266,15 @@ const logout = () => {
 };
 
 const links1 = [
-  { icon: "home", text: "Dashboard" },
-  { icon: "group", text: "Accounts" },
-  { icon: "currency_ruble", text: "Sales" },
-  { icon: "inventory", text: "Inventory" },
+  { icon: "home", text: "Dashboard", path: "/dashboard" },
+  { icon: "group", text: "Accounts", path: "/accounts-mgmt" },
+  { icon: "currency_ruble", text: "Sales", path: "/sales-mgmt" },
+  { icon: "inventory", text: "Inventory", path: "/books-inventory-mgmt" },
   { icon: "query_stats", text: "Forecasting" },
 ];
+
+const linkActive = ref("dashboard");
+// console.log(linkActive);
 </script>
 
 <style lang="sass">
@@ -267,6 +290,8 @@ const links1 = [
     background-color: #f5f5f5
     padding: 2px 8px
     font-size: 16px
+    margin-top: 16px !important
+    margin-right: 8px
 
   &__toolbar-input:active
     background-color: transparent !important
@@ -289,4 +314,11 @@ const links1 = [
 
     // &:hover
     //   color: #000
+
+  // &__drawer-item:hover
+  //   border-radius: 12px !important
+
+  &__drawer-item:active
+    color: $primary !important
+    border-left: 2px solid $primary
 </style>
