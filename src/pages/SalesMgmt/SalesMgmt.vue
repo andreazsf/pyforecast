@@ -22,48 +22,29 @@
           >
             <q-list class="q-gutter-x-lg my-text-accent-2 q-mb-lg row">
               <q-item
-                clickable
-                :active="link === 'books'"
-                @click="link = 'books'"
-                active-class="my-active-link"
-                class="my-link invisible"
+                class="col q-gutter-x-lg"
+                :class="
+                  $q.screen.width <= 414
+                    ? 'justify-center bg-red full-width'
+                    : 'justify-end'
+                "
               >
-                Books
-              </q-item>
-              <q-item
-                clickable
-                :active="link === 'uniform'"
-                @click="link = 'uniform'"
-                active-class="my-active-link"
-                class="my-link invisible"
-              >
-                Uniform
-              </q-item>
-              <q-item
-                clickable
-                :active="link === 'pajah'"
-                @click="link = 'pajah'"
-                active-class="my-active-link"
-                class="my-link invisible"
-              >
-                Pajah
-              </q-item>
-              <q-item class="col justify-end q-gutter-x-lg">
                 <q-btn
                   no-caps
                   flat
                   icon="query_stats"
                   class="bg-primary text-white text-weight-regular q-px-lg rounded-borders-10"
                   label="Forecast"
-                  >&nbsp;&nbsp;&nbsp;&nbsp;
+                  ><div class="gt-md q-pr-sm"></div>
                 </q-btn>
                 <q-btn
                   no-caps
                   flat
                   icon="person"
-                  class="bg-primary text-white text-weight-regular q-pr-lg rounded-borders-10"
+                  class="bg-primary text-white text-weight-regular rounded-borders-10"
+                  style="line-height: 1.2"
                   label="Add a new record"
-                >
+                  ><div class="gt-md q-pr-sm"></div>
                 </q-btn>
               </q-item>
             </q-list>
@@ -73,7 +54,7 @@
               :rows-per-page-options="[0]"
               @row-click="onRowClick"
               row-key="id"
-              class="my-table my-table-row-width"
+              class="my-table my-table-row-width q-mx-md"
               flat
             >
               <!-- More actions -->
@@ -122,7 +103,7 @@
                   <q-td
                     colspan="100%"
                     class="text-center"
-                    style="font-weight: normal"
+                    style="font-weight: normal; border-radius: 12px !important"
                   >
                     No Data Available
                   </q-td>

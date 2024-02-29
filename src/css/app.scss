@@ -160,7 +160,7 @@ table tr th:last-child {
 }
 
 .my-table {
-  @media screen and (max-width: $breakpoint-sm-min) {
+  @media screen and (max-width: $breakpoint-md-min) {
     // 768
     max-width: calc(100vw - 133px);
   }
@@ -263,6 +263,11 @@ table tr th:last-child {
         }
       }
     }
+  }
+
+  tr td {
+    min-width: 120px;
+    text-overflow: ellipsis;
   }
 
   /* width */

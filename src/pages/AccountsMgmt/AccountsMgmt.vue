@@ -19,6 +19,12 @@
             class="items-center text-16 q-pa-lg my-bg-accent-0 rounded-borders"
           >
             <q-list class="q-gutter-x-lg my-text-accent-2 q-mb-lg row">
+              <!-- <q-item
+                class="row"
+                :class="
+                  $q.screen.width <= 414 ? 'full-width justify-center' : ''
+                "
+              > -->
               <q-item
                 clickable
                 :active="link === 'admins'"
@@ -37,14 +43,23 @@
               >
                 Staff
               </q-item>
-              <q-item class="col justify-end">
+              <!-- </q-item> -->
+              <q-item
+                :class="
+                  $q.screen.width <= 414
+                    ? 'row full-width justify-center'
+                    : 'justify-end'
+                "
+                class="col"
+              >
                 <q-btn
                   no-caps
                   flat
                   icon="person"
-                  class="bg-primary text-white text-weight-regular q-pr-lg rounded-borders-10"
+                  class="bg-primary text-white text-weight-regular rounded-borders-10"
+                  style="line-height: 1.2"
                   label="Add a new account"
-                >
+                  ><div class="gt-md q-pr-sm"></div>
                 </q-btn>
               </q-item>
             </q-list>
@@ -54,7 +69,7 @@
               :rows-per-page-options="[0]"
               @row-click="onRowClick"
               row-key="id"
-              class="my-table my-table-row-width"
+              class="my-table my-table-row-width q-mx-md"
               flat
             >
               <!-- More actions -->
@@ -103,7 +118,7 @@
                   <q-td
                     colspan="100%"
                     class="text-center"
-                    style="font-weight: normal"
+                    style="font-weight: normal; border-radius: 12px !important"
                   >
                     No Data Available
                   </q-td>

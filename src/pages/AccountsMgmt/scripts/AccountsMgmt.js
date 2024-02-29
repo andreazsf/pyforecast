@@ -1,5 +1,6 @@
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { useQuasar } from "quasar";
 import { Search, currentRows } from "../../../server/index";
 import Filters from "../../../components/FiltersComp.vue";
 import Pagination from "../../../components/PaginationComp.vue";
@@ -23,6 +24,9 @@ export default {
 
     // Router
     const router = useRouter();
+
+    // q
+    const $q = useQuasar();
 
     // Rows
     let rows = ref([]);
@@ -60,7 +64,7 @@ export default {
         label: "Email Address",
         align: "left",
         sortable: false,
-        style: "font-weight: normal;",
+        style: "font-weight: normal; min-width: 200px",
       },
       {
         name: "username",
@@ -68,7 +72,7 @@ export default {
         label: "Username",
         align: "left",
         sortable: false,
-        style: "font-weight: normal;",
+        style: "font-weight: normal; min-width: 136px",
       },
       {
         name: "password",
@@ -147,6 +151,7 @@ export default {
       currentRows,
       Search,
       link: ref("admins"),
+      $q,
     };
   },
 };
