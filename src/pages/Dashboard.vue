@@ -6,7 +6,7 @@
     :duration="2000"
   >
     <q-page class="flex flex-center bg-white">
-      <q-scroll-area class="absolute full-width full-height">
+      <q-scroll-area class="absolute full-width full-height q-pt-md">
         <div class="full-width q-px-lg" style="min-height: 90vh">
           <div flat>
             <div class="text-h3">Welcome, Admin!</div>
@@ -14,7 +14,10 @@
               Here's your summary sales of data.
             </p>
           </div>
-          <div class="row q-gutter-x-md q-pt-md justify-center">
+          <div
+            class="q-gutter-x-md q-pt-md justify-center"
+            :class="$q.screen.width <= 414 ? 'col q-gutter-lg' : 'row'"
+          >
             <q-card
               clickable
               flat

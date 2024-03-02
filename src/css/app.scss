@@ -109,18 +109,43 @@ a:active {
   text-underline-offset: 8px !important;
 }
 
-.my-link:hover,
-.my-list:hover {
+.my-link:hover {
   // text-decoration: underline;
   // text-underline-offset: 8px !important;
   // text-decoration-thickness: 2px;
   border-radius: 12px !important;
-  background-color: none !important;
+
+  // .q-focus-helper {
+  //   background-color: transparent !important;
+  //   color: $primary !important;
+  // }
+
+  // .q-hoverable {
+  //   color: $primary !important;
+  // }
 }
 
+// .my-list:hover {
+//   // text-decoration: underline;
+//   // text-underline-offset: 8px !important;
+//   // text-decoration-thickness: 2px;
+
+//   // .q-focus-helper {
+//   //   background-color: transparent !important;
+//   //   color: $primary !important;
+//   // }
+
+//   // .q-hoverable {
+//   //   color: $primary !important;
+//   // }
+// }
+
 .my-active-list {
-  color: $primary !important;
-  border-left: 1px solid $primary;
+  border-left: 3px solid $primary;
+  .q-item__label,
+  i {
+    color: $primary !important;
+  }
 }
 
 /*

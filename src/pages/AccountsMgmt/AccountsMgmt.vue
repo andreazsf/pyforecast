@@ -6,8 +6,8 @@
     :duration="2000"
   >
     <q-page class="flex flex-center bg-white">
-      <q-scroll-area class="absolute full-width full-height">
-        <div class="full-width q-px-lg" style="min-height: 90vh">
+      <q-scroll-area class="absolute full-width full-height q-pt-md">
+        <div class="full-width q-px-lg q-pb-xl" style="min-height: 90vh">
           <!-- Heading -->
           <div>
             <div class="text-h3">Accounts</div>
@@ -18,49 +18,49 @@
           <div
             class="items-center text-16 q-pa-lg my-bg-accent-0 rounded-borders"
           >
-            <q-list class="q-gutter-x-lg my-text-accent-2 q-mb-lg row">
+            <q-list
+              class="my-text-accent-2 row"
+              :class="
+                $q.screen.width <= 414
+                  ? 'justify-center full-width'
+                  : 'q-mb-lg q-gutter-x-md'
+              "
+            >
               <q-item
-                class="row"
-                :class="
-                  $q.screen.width <= 414 ? 'full-width justify-center' : ''
-                "
+                clickable
+                :active="link === 'admins'"
+                @click="link = 'admins'"
+                active-class="my-active-link"
+                class="my-link"
               >
-                <q-item
-                  clickable
-                  :active="link === 'admins'"
-                  @click="link = 'admins'"
-                  active-class="my-active-link"
-                  class="my-link"
-                >
-                  Administrators
-                </q-item>
-                <q-item
-                  clickable
-                  :active="link === 'staff'"
-                  @click="link = 'staff'"
-                  active-class="my-active-link"
-                  class="my-link"
-                >
-                  Staff
-                </q-item>
+                Administrators
               </q-item>
               <q-item
+                clickable
+                :active="link === 'staff'"
+                @click="link = 'staff'"
+                active-class="my-active-link"
+                class="my-link"
+              >
+                Staff
+              </q-item>
+              <q-item
+                class="col"
                 :class="
                   $q.screen.width <= 414
-                    ? 'full-width justify-center'
-                    : 'justify-end'
+                    ? 'justify-center full-width col-auto'
+                    : 'q-gutter-x-lg justify-end'
                 "
-                class="col"
               >
                 <q-btn
                   no-caps
                   flat
                   icon="person"
                   class="bg-primary text-white text-weight-regular rounded-borders-10"
-                  style="line-height: 1.2"
                   label="Add a new account"
                   @click="addAccountDialog = true"
-                  ><div class="gt-md q-pr-sm"></div>
+                >
+                  <div class="gt-md q-pr-sm"></div>
                 </q-btn>
               </q-item>
             </q-list>

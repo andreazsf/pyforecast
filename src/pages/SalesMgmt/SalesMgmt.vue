@@ -6,8 +6,8 @@
     :duration="2000"
   >
     <q-page class="flex flex-center bg-white">
-      <q-scroll-area class="absolute full-width full-height">
-        <div class="full-width q-px-lg" style="min-height: 90vh">
+      <q-scroll-area class="absolute full-width full-height q-pt-md">
+        <div class="full-width q-px-lg q-pb-xl" style="min-height: 90vh">
           <!-- Heading -->
           <div>
             <div class="text-h3">Sales</div>
@@ -16,7 +16,7 @@
             </p>
           </div>
 
-          <!-- Sales Table -->
+          <!-- Sales Content -->
           <div
             class="items-center text-16 q-pa-lg my-bg-accent-0 rounded-borders"
           >
@@ -40,7 +40,7 @@
                 <q-btn
                   no-caps
                   flat
-                  icon="person"
+                  icon="playlist_add"
                   class="bg-primary text-white text-weight-regular rounded-borders-10"
                   style="line-height: 1.2"
                   label="Add a new record"
@@ -61,7 +61,7 @@
                   path="sales"
                 />
               </q-item>
-              <q-item class="col-auto">
+              <q-item class="col-auto items-end">
                 <Pagination
                   v-model:pagination="pagination"
                   :numRows="rows"

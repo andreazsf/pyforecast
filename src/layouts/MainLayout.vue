@@ -163,8 +163,11 @@
             class="q__drawer-item my-list"
             v-for="link in links1"
             :key="link.text"
-            @click="router.push({ path: link.path })"
-            :active="linkActive === 'link.path'"
+            @click="
+              router.push({ path: link.path });
+              linkActive = link.path;
+            "
+            :active="linkActive === link.path"
             active-class="my-active-list"
             clickable
           >
@@ -273,8 +276,7 @@ const links1 = [
   { icon: "query_stats", text: "Forecasting" },
 ];
 
-const linkActive = ref("dashboard");
-// console.log(linkActive);
+const linkActive = ref("/dashboard");
 </script>
 
 <style lang="sass">
