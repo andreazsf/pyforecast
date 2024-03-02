@@ -68,6 +68,29 @@
                 </q-btn>
               </q-item>
             </q-list>
+
+            <!-- Filters and Pagination -->
+            <q-list class="q-mb-lg row">
+              <q-item class="col">
+                <Filters
+                  :labelVisible="true"
+                  :searchVisible="true"
+                  :selectVisible="true"
+                  :filterDateVisible="true"
+                  :dateRangeVisible="true"
+                  path="sales"
+                />
+              </q-item>
+              <q-item class="col-auto">
+                <Pagination
+                  v-model:pagination="pagination"
+                  :numRows="rows"
+                  @update:pagination="updatePagination"
+                />
+              </q-item>
+            </q-list>
+
+            <!-- Table -->
             <q-table
               :rows="currentRows"
               :columns="columns"
