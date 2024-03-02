@@ -1,11 +1,17 @@
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { Search, currentRows } from "../../../server/index";
+// import { Search, currentRows } from "../../../server/index";
 import Filters from "../../../components/FiltersComp.vue";
 import Pagination from "../../../components/PaginationComp.vue";
+// import { Search } from "../../../composables/Search";
 
 // fetch sales data from db
-import { FetchSales } from "../../../server/index";
+import {
+  FetchSales,
+  FetchData,
+  currentRows,
+  Search,
+} from "../../../server/index";
 
 export default {
   components: {
@@ -15,9 +21,16 @@ export default {
 
   setup() {
     onMounted(() => {
-      FetchSales().then((response) => {
+      // FetchSales().then((response) => {
+      //   rows.value = response;
+      //   currentRows.value = rows.value.slice(0, pagination.value.rowsPerPage);
+      // });
+      FetchData("sales", {
+        endpoint: "",
+        params: "",
+      }).then((response) => {
         rows.value = response;
-        currentRows.value = rows.value.slice(0, pagination.value.rowsPerPage);
+        Search.value = rows.value.slice(0, pagination.value.rowsPerPage);
       });
     });
 
@@ -77,7 +90,7 @@ export default {
       sortBy: "desc",
       descending: false,
       page: 1,
-      rowsPerPage: 10,
+      rowsPerPage: 6,
     });
 
     /**
@@ -123,6 +136,7 @@ export default {
       currentRows,
       Search,
       link: ref("books"),
+      Search,
     };
   },
 };

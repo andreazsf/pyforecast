@@ -9,6 +9,10 @@
       @return $accent-2;
     } @else if $num == 3 {
       @return $accent-3;
+    } @else if $num == 4 {
+      @return $accent-4;
+    } @else if $num == 5 {
+      @return $accent-5;
     }
   }
 }

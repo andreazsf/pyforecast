@@ -25,7 +25,7 @@
                 class="col q-gutter-x-lg"
                 :class="
                   $q.screen.width <= 414
-                    ? 'justify-center bg-red full-width'
+                    ? 'justify-center full-width'
                     : 'justify-end'
                 "
               >
@@ -48,8 +48,31 @@
                 </q-btn>
               </q-item>
             </q-list>
+
+            <!-- Filters and Pagination -->
+            <q-list class="q-mb-lg row">
+              <q-item class="col">
+                <Filters
+                  :labelVisible="true"
+                  :searchVisible="true"
+                  :selectVisible="true"
+                  :filterDateVisible="true"
+                  :dateRangeVisible="true"
+                  path="sales"
+                />
+              </q-item>
+              <q-item class="col-auto">
+                <Pagination
+                  v-model:pagination="pagination"
+                  :numRows="rows"
+                  @update:pagination="updatePagination"
+                />
+              </q-item>
+            </q-list>
+
+            <!-- Table -->
             <q-table
-              :rows="currentRows"
+              :rows="Search"
               :columns="columns"
               :rows-per-page-options="[0]"
               @row-click="onRowClick"
@@ -98,7 +121,7 @@
                 </q-td>
               </template>
               <!-- Handle table when data not available -->
-              <template v-if="!currentRows.length" v-slot:bottom-row>
+              <template v-if="!Search.length" v-slot:bottom-row>
                 <q-tr>
                   <q-td
                     colspan="100%"

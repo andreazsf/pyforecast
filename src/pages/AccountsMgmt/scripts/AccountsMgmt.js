@@ -6,7 +6,7 @@ import Filters from "../../../components/FiltersComp.vue";
 import Pagination from "../../../components/PaginationComp.vue";
 
 // fetch Accounts data from db
-import { FetchAccounts } from "../../../server/index";
+import { FetchAccounts, AddAccount } from "../../../server/index";
 
 export default {
   components: {
@@ -121,6 +121,83 @@ export default {
       Search.value = rows.value.slice(startIndex, endIndex + 1);
     };
 
+    // Form
+    const form = ref({
+      id: null,
+      prefix: [],
+      userType: [],
+      firstName: "",
+      lastName: "",
+      emailAddress: "",
+      username: "",
+      password: "",
+    });
+
+    // Function to check if form is valid
+    const isFormValid = () => {
+      return (
+        form.value.prefix !== "" &&
+        form.value.userType.length !== 0 &&
+        form.value.firstName !== "" &&
+        form.value.lastName !== "" &&
+        form.value.emailAddress !== "" &&
+        form.value.username !== "" &&
+        form.value.password !== ""
+      );
+    };
+
+    const addAccount = () => {
+      FetchAccounts().then((response) => {
+        let accounts = response;
+
+        let highestId = 0;
+
+        // Find the highest existing ID
+        accounts.forEach((account) => {
+          if (account.id > highestId) {
+            highestId = parseInt(account.id); // Parse ID as integer
+          }
+        });
+
+        // Increment the ID for the new account
+        const newId = highestId + 1;
+
+        const data = {
+          id: newId,
+          prefix: form.value.prefix,
+          user_type: form.value.userType,
+          first_name: form.value.firstName,
+          last_name: form.value.lastName,
+          email_address: form.value.emailAddress,
+          username: form.value.username,
+          password: form.value.password,
+        };
+
+        // Add the new account to the server
+        AddAccount(data).then((response) => {
+          // Make sure ID is stored as a number in the JSON file
+          data.id = newId; // Ensure newId is a number
+
+          // Assuming your AddAccount function updates the JSON file, make sure it stores IDs as numbers
+          // Example: addAccountToJSONFile(data); // Ensure that this function stores IDs as numbers
+
+          let status = Boolean(response.data !== "undefined");
+          $q.notify({
+            // Post notification on lower right side on the organizational management page
+            position: $q.screen.width < 767 ? "top" : "bottom-right",
+            classes: `${
+              status ? "om-success-notif" : "om-error-notif"
+            } q-px-lg q-pt-none q-pb-none q-mr-lg q-mb-md`,
+            html: true,
+            message: status
+              ? `<div class="text-bold">Staff Member added Succesfully!</div> A new Staff Member has been added to ${form.value.departmentOffice}.`
+              : `<div class="text-bold">Failed to add the new Staff Member!</div>`,
+          });
+        });
+      });
+    };
+
+
     /**
      *  Method to handle when the row is clicked.
      */
@@ -145,13 +222,21 @@ export default {
       columns,
       updatePagination,
       pagination,
+      form,
+      isFormValid,
+      addAccount,
       selectedRow,
       selectedRowID,
       onRowClick,
       currentRows,
       Search,
       link: ref("admins"),
-      $q,
+      addAccountDialog: ref(false),
+      editAccountDialog: ref(false),
+      isPwd: ref(true),
+      password: ref(""),
+      prefix: ["Ms.", "Mr.", "Mrs.", "Mx."],
+      userType: ["Admin", "Staff"],
     };
   },
 };

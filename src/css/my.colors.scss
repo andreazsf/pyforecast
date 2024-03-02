@@ -99,7 +99,7 @@
 }
 
 // Background accent color
-@for $i from 0 through 3 {
+@for $i from 0 through 5 {
   .my-bg-accent-#{$i} {
     background-color: color(a, $i);
   }

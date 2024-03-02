@@ -8,7 +8,7 @@
       "email_address": "admin@admin.com",
       "username": "adminadmin",
       "password": "********",
-      "user_type": "admin"
+      "user_type": "Admin"
     },
     {
       "id": 1,
@@ -18,7 +18,7 @@
       "email_address": "admin2@admin.com",
       "username": "adminadmin",
       "password": "********",
-      "user_type": "admin"
+      "user_type": "Admin"
     },
     {
       "id": 2,
@@ -28,7 +28,7 @@
       "email_address": "janedoe@gmail.com",
       "username": "janedoe",
       "password": "********",
-      "user_type": "admin"
+      "user_type": "Admin"
     }
   ],
   "inventory_books": [

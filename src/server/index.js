@@ -62,22 +62,44 @@ const FetchData = (path, payload) => {
   });
 };
 
+// Adding Account to DB
+const AddAccount = (payload) => {
+  return new Promise((resolve, reject) => {
+    httpPost("accounts", payload, {
+      success(response) {
+        resolve(response.data);
+      },
+      catch(response) {
+        reject(response);
+      },
+    });
+  });
+};
+
 let CurrentRows = ref([]);
 let Search = ref([]);
 let SearchedParams = ref(null);
+let params = ref(null);
 
-const GetSearchResult = (path, payload) => {
+// queries for mobile date and time filters
+let TypeValue = ref(null);
+let PrevDate = ref(null);
+let Keyword = ref(null);
+let DateRange = ref({ from: null, to: null });
+
+let GetSearchResult = (payload) => {
+  params.value = payload.params;
   return new Promise((resolve, reject) => {
     httpGet(
-      `${path}`,
+      `${payload.path}/${payload.endpoint}`,
       {
         success(response) {
-          response.data.status === 200 &&
-            (Search.value.tickets = response.data);
-          CurrentRows.value = response.data; //modified
+          response.status === 200 && (Search.value = response.data);
+          CurrentRows.value = response.data;
           resolve(response);
         },
         catch(response) {
+          console.log(response);
           reject(response);
         },
       },
@@ -92,7 +114,12 @@ export {
   FetchBooks,
   FetchData,
   FetchSales,
+  AddAccount,
   GetSearchResult,
   CurrentRows as currentRows,
   SearchedParams,
+  TypeValue as typeValue,
+  PrevDate as prevDate,
+  Keyword as keyword,
+  DateRange as dateRange,
 };
