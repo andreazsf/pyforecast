@@ -65,6 +65,86 @@
               </q-item>
             </q-list>
 
+            <q-table
+              :rows="currentRows"
+              :columns="columns"
+              :rows-per-page-options="[0]"
+              row-key="id"
+              class="my-table my-table-row-width q-mx-md"
+              flat
+            >
+              <!-- More actions -->
+              <template v-slot:body-cell-actions="props">
+                <q-td
+                  :props="props"
+                  style="padding-right: 16px"
+                  class="text-right"
+                >
+                  <q-btn
+                    icon="more_vert"
+                    class="my-text-primary"
+                    flat
+                    round
+                    dense
+                  />
+                  <q-menu :offset="[-20, -5]" class="rounded-borders q-py-sm">
+                    <q-list class="q-py-sm">
+                      <q-item
+                        clickable
+                        @click="
+                          pushAccount(props.row);
+                          editAccountDialog = true;
+                        "
+                        v-close-popup
+                        class="menu-list q-py-md"
+                        style="width: 224px"
+                      >
+                        <q-item-section avatar>
+                          <q-icon
+                            name="edit"
+                            size="sm"
+                            class="material-symbols-outlined q-ml-md"
+                          />
+                        </q-item-section>
+                        <q-item-section>Edit Details</q-item-section>
+                      </q-item>
+                      <q-item
+                        clickable
+                        @click="
+                          deleteAccountDialog = true;
+                          rememberRowToDelete(props.row);
+                        "
+                        v-close-popup
+                        class="menu-list q-py-md"
+                        style="width: 224px"
+                      >
+                        <q-item-section avatar>
+                          <q-icon
+                            name="cancel"
+                            size="sm"
+                            class="material-symbols-outlined q-ml-md"
+                          />
+                        </q-item-section>
+                        <q-item-section> Delete Account </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-td>
+              </template>
+              <!-- Handle table when data not available -->
+              <template v-if="!currentRows.length" v-slot:bottom-row>
+                <q-tr>
+                  <q-td
+                    colspan="100%"
+                    class="text-center"
+                    style="font-weight: normal; border-radius: 12px !important"
+                  >
+                    No Data Available
+                  </q-td>
+                </q-tr>
+              </template>
+            </q-table>
+
             <!-- Add account form pop up -->
             <q-dialog v-model="addAccountDialog" persistent>
               <q-card
@@ -82,6 +162,7 @@
                           emit-value
                           map-options
                           :options="prefix"
+                          :rules="[(val) => !!val || '']"
                           hide-bottom-space
                           popup-content-class="my-option-style-light q-py-sm"
                           options-selected-class="selected-class"
@@ -100,6 +181,7 @@
                           emit-value
                           map-options
                           :options="userType"
+                          :rules="[(val) => !!val || '']"
                           hide-bottom-space
                           popup-content-class="my-option-style-light q-py-sm"
                           options-selected-class="selected-class"
@@ -116,6 +198,8 @@
                         <div class="text-black q-mb-sm">First Name</div>
                         <q-input
                           v-model="form.firstName"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
                           borderless
                           autocomplete="off"
                           placeholder="e.g. Juan"
@@ -126,6 +210,8 @@
                         <div class="text-black q-mb-sm">Last Name</div>
                         <q-input
                           v-model="form.lastName"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
                           borderless
                           autocomplete="off"
                           placeholder="e.g. Dela Cruz"
@@ -138,11 +224,12 @@
                         <div class="text-black q-mb-sm">Email Address</div>
                         <q-input
                           v-model="form.emailAddress"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
                           borderless
                           autocomplete="off"
                           type="email"
-                          suffix="@cvsu.edu.ph"
-                          placeholder="e.g. juandelacruz"
+                          placeholder="e.g. juandelacruz@cvsu.edu.ph"
                           class="input-type q-px-lg"
                         />
                       </div>
@@ -152,17 +239,21 @@
                         <div class="text-black q-mb-sm">Username</div>
                         <q-input
                           v-model="form.username"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
                           borderless
                           autocomplete="off"
                           class="input-type q-px-lg"
-                          mask="aaaaaaaa"
-                          placeholder="Max of 10 characters"
+                          mask="NNNNNNNNNNNNNNN"
+                          placeholder="Max of 15 characters"
                         />
                       </div>
                       <div class="col">
                         <div class="text-black q-mb-sm">Password</div>
                         <q-input
                           v-model="form.password"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
                           :type="isPwd ? 'password' : form.password.value"
                           lazy-rules
                           borderless
@@ -198,6 +289,7 @@
                       v-close-popup
                     />
                     <q-btn
+                      @click="fetchAll()"
                       no-caps
                       flat
                       label="Cancel"
@@ -214,171 +306,189 @@
               </q-card>
             </q-dialog>
 
-            <q-table
-              :rows="currentRows"
-              :columns="columns"
-              :rows-per-page-options="[0]"
-              @row-click="onRowClick"
-              row-key="id"
-              class="my-table my-table-row-width q-mx-md"
-              flat
-            >
-              <!-- More actions -->
-              <template v-slot:body-cell-actions="props">
-                <q-td
-                  :props="props"
-                  style="padding-right: 16px"
-                  class="text-right"
-                >
-                  <q-btn
-                    icon="more_vert"
-                    class="my-text-primary"
-                    flat
-                    round
-                    dense
-                  />
-                  <q-menu :offset="[-20, -5]" class="rounded-borders q-py-sm">
-                    <q-list class="q-py-sm">
-                      <q-item
-                        clickable
-                        @click="
-                          editAccount(props.row);
-                          editAccountDialog = true;
-                        "
-                        v-close-popup
-                        class="menu-list q-py-md"
-                        style="width: 224px"
-                      >
-                        <q-item-section avatar>
-                          <q-icon
-                            name="edit"
-                            size="sm"
-                            class="material-symbols-outlined q-ml-md"
-                          />
-                        </q-item-section>
-                        <q-item-section>Edit Details</q-item-section>
-                      </q-item>
-                      <q-item
-                        clickable
-                        @click="deleteAccount(props.row)"
-                        v-close-popup
-                        class="menu-list q-py-md"
-                        style="width: 224px"
-                      >
-                        <q-item-section avatar>
-                          <q-icon
-                            name="cancel"
-                            size="sm"
-                            class="material-symbols-outlined q-ml-md"
-                          />
-                        </q-item-section>
-                        <q-item-section> Delete Account </q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </q-td>
-              </template>
-              <!-- Handle table when data not available -->
-              <template v-if="!currentRows.length" v-slot:bottom-row>
-                <q-tr>
-                  <q-td
-                    colspan="100%"
-                    class="text-center"
-                    style="font-weight: normal; border-radius: 12px !important"
-                  >
-                    No Data Available
-                  </q-td>
-                </q-tr>
-              </template>
-            </q-table>
-
             <!-- Edit account form pop up -->
             <q-dialog v-model="editAccountDialog" persistent>
               <q-card
                 style="width: 490px; max-width: 80vw"
                 class="q-pa-lg rounded-borders-16"
               >
-                <q-card-section class="q-pb-lg q-mb-md q-gutter-y-md text-16">
-                  <div class="row q-gutter-x-lg">
-                    <div class="col">
-                      <div class="text-black q-mb-sm">Prefix</div>
-                      <q-input
-                        borderless
-                        autocomplete="off"
-                        name="Email"
-                        class="input-type q-px-lg"
-                      />
+                <q-form>
+                  <q-card-section class="q-pb-lg q-mb-md q-gutter-y-md text-16">
+                    <div class="row q-gutter-x-lg">
+                      <div class="col">
+                        <div class="text-black q-mb-sm">Prefix</div>
+                        <q-select
+                          v-model="form.prefix"
+                          :label="form.prefix !== '' ? '' : 'None'"
+                          emit-value
+                          map-options
+                          :options="prefix"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
+                          popup-content-class="my-option-style-light q-py-sm"
+                          options-selected-class="selected-class"
+                          transition-show="scale"
+                          transition-hide="scale"
+                          borderless
+                          autocomplete="off"
+                          class="input-type q-px-lg"
+                        />
+                      </div>
+                      <div class="col">
+                        <div class="text-black q-mb-sm">User Type</div>
+                        <q-select
+                          v-model="form.userType"
+                          :label="form.userType !== '' ? '' : 'None'"
+                          emit-value
+                          map-options
+                          :options="userType"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
+                          popup-content-class="my-option-style-light q-py-sm"
+                          options-selected-class="selected-class"
+                          transition-show="scale"
+                          transition-hide="scale"
+                          borderless
+                          autocomplete="off"
+                          class="input-type q-px-lg"
+                        />
+                      </div>
                     </div>
-                    <div class="col">
-                      <div class="text-black q-mb-sm">User Type</div>
-                      <q-input
-                        borderless
-                        autocomplete="off"
-                        name="Email"
-                        class="input-type q-px-lg"
-                      />
+                    <div class="row q-gutter-x-lg">
+                      <div class="col">
+                        <div class="text-black q-mb-sm">First Name</div>
+                        <q-input
+                          v-model="form.firstName"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
+                          borderless
+                          autocomplete="off"
+                          placeholder="e.g. Juan"
+                          class="input-type q-px-lg"
+                        />
+                      </div>
+                      <div class="col">
+                        <div class="text-black q-mb-sm">Last Name</div>
+                        <q-input
+                          v-model="form.lastName"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
+                          borderless
+                          autocomplete="off"
+                          placeholder="e.g. Dela Cruz"
+                          class="input-type q-px-lg"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div class="row q-gutter-x-lg">
-                    <div class="col">
-                      <div class="text-black q-mb-sm">First Name</div>
-                      <q-input
-                        borderless
-                        autocomplete="off"
-                        name="Email"
-                        class="input-type q-px-lg"
-                      />
+                    <div class="row q-gutter-x-lg">
+                      <div class="col">
+                        <div class="text-black q-mb-sm">Email Address</div>
+                        <q-input
+                          v-model="form.emailAddress"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
+                          borderless
+                          autocomplete="off"
+                          type="email"
+                          placeholder="e.g. juandelacruz@cvsu.edu.ph"
+                          class="input-type q-px-lg"
+                        />
+                      </div>
                     </div>
-                    <div class="col">
-                      <div class="text-black q-mb-sm">Last Name</div>
-                      <q-input
-                        borderless
-                        autocomplete="off"
-                        name="Email"
-                        class="input-type q-px-lg"
-                      />
+                    <div class="row q-gutter-x-lg">
+                      <div class="col">
+                        <div class="text-black q-mb-sm">Username</div>
+                        <q-input
+                          v-model="form.username"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
+                          borderless
+                          autocomplete="off"
+                          class="input-type q-px-lg"
+                          mask="NNNNNNNNNNNNNNN"
+                          placeholder="Max of 15 characters"
+                        />
+                      </div>
+                      <div class="col">
+                        <div class="text-black q-mb-sm">Password</div>
+                        <q-input
+                          v-model="form.password"
+                          :rules="[(val) => !!val || '']"
+                          hide-bottom-space
+                          :type="isPwd ? 'password' : form.password.value"
+                          lazy-rules
+                          borderless
+                          autocomplete="off"
+                          placeholder="New password"
+                          class="input-type q-px-lg"
+                        >
+                          <template v-slot:append>
+                            <q-icon
+                              :name="isPwd ? 'visibility_off' : 'visibility'"
+                              class="cursor-pointer"
+                              v-on:click="isPwd = !isPwd"
+                            />
+                          </template>
+                        </q-input>
+                      </div>
                     </div>
-                  </div>
-                  <div class="row q-gutter-x-lg">
-                    <div class="col">
-                      <div class="text-black q-mb-sm">Email Address</div>
-                      <q-input
-                        borderless
-                        autocomplete="off"
-                        name="Email"
-                        class="input-type q-px-lg"
-                      />
-                    </div>
-                  </div>
-                  <div class="row q-gutter-x-lg">
-                    <div class="col">
-                      <div class="text-black q-mb-sm">Username</div>
-                      <q-input
-                        borderless
-                        autocomplete="off"
-                        name="Email"
-                        class="input-type q-px-lg"
-                      />
-                    </div>
-                    <div class="col">
-                      <div class="text-black q-mb-sm">Password</div>
-                      <q-input
-                        borderless
-                        autocomplete="off"
-                        name="Email"
-                        class="input-type q-px-lg"
-                      />
-                    </div>
-                  </div>
+                  </q-card-section>
+
+                  <q-card-actions align="right" class="bg-white text-16">
+                    <q-btn
+                      @click="editAccount()"
+                      :disable="!isFormValid()"
+                      no-caps
+                      flat
+                      label="Save"
+                      class="my-bg-accent-5 text-white rounded-borders-16 text-black q-mr-sm"
+                      :style="
+                        $q.screen.width <= 414
+                          ? 'width: 96px; height: 56px'
+                          : 'width: 128px; height: 56px'
+                      "
+                      v-close-popup
+                    />
+                    <q-btn
+                      @click="fetchAll()"
+                      no-caps
+                      flat
+                      label="Cancel"
+                      class="my-bg-accent-4 text-white rounded-borders-16"
+                      :style="
+                        $q.screen.width <= 414
+                          ? 'width: 96px; height: 56px'
+                          : 'width: 128px; height: 56px'
+                      "
+                      v-close-popup
+                    />
+                  </q-card-actions>
+                </q-form>
+              </q-card>
+            </q-dialog>
+
+            <!-- Edit account form pop up -->
+            <q-dialog v-model="deleteAccountDialog" persistent>
+              <q-card
+                style="width: 490px; max-width: 80vw"
+                class="q-pa-lg rounded-borders-16"
+              >
+                <q-card-section class="text-center text-16">
+                  Are you sure you want to delete this account?
                 </q-card-section>
 
-                <q-card-actions align="right" class="bg-white text-16">
+                <q-card-actions align="center" class="bg-white text-16">
                   <q-btn
+                    @click="deleteAccount()"
                     no-caps
                     flat
-                    label="Save"
+                    label="Yes"
                     class="my-bg-accent-5 text-white rounded-borders-16 text-black q-mr-sm"
-                    style="width: 128px; height: 56px"
+                    :style="
+                      $q.screen.width <= 414
+                        ? 'width: 96px; height: 56px'
+                        : 'width: 128px; height: 56px'
+                    "
                     v-close-popup
                   />
                   <q-btn
@@ -386,7 +496,11 @@
                     flat
                     label="Cancel"
                     class="my-bg-accent-4 text-white rounded-borders-16"
-                    style="width: 128px; height: 56px"
+                    :style="
+                      $q.screen.width <= 414
+                        ? 'width: 96px; height: 56px'
+                        : 'width: 128px; height: 56px'
+                    "
                     v-close-popup
                   />
                 </q-card-actions>

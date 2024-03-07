@@ -10,14 +10,19 @@
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
-    "build": "quasar build"
+    "build": "quasar build",
+    "start": "node server.js"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
-    "axios": "^1.6.7",
-    "express": "^4.18.2",
+    "axios": "^1.5.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.3",
     "firebase": "^10.6.0",
+    "http-proxy-middleware": "^2.0.6",
+    "json": "^11.0.0",
     "json-server-auth": "^2.1.0",
+    "node": "^20.6.1",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0",
@@ -37,5 +42,8 @@
     "node": "^18 || ^16 || ^14.19",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
-  }
+  },
+  "main": "quasar.config.js",
+  "keywords": [],
+  "license": "ISC"
 }

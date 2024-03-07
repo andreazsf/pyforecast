@@ -32,6 +32,19 @@ axios.interceptors.response.use(
   }
 );
 
+// let ChainCallback = (promises, callback) => {
+//   promises
+//     .then((response) => {
+//       typeof callback.success === "function" && callback.success(response);
+//     })
+//     .catch((response) => {
+//       if (response !== 200) {
+//         alert(response);
+//       }
+//       typeof callback.catch === "function" && callback.catch(response);
+//     });
+// };
+
 let ChainCallback = (promises, callback) => {
   promises
     .then((response) => {
@@ -39,9 +52,10 @@ let ChainCallback = (promises, callback) => {
     })
     .catch((response) => {
       if (response !== 200) {
-        alert(response);
+        // alert(response);
+        // console.log(response);
       }
-      typeof callback.catch === "function" && callback.catch(response);
+      // typeof callback.catch === "function" && callback.catch(response);
     });
 };
 
@@ -88,6 +102,7 @@ const httpPut = (resource, payload, callback) => {
   // axiosConfig.headers.Authorization = `Bearer ${
   //   LocalStorage.getItem("Bearer") || ""
   // }`;
+  // ChainCallback(axios.put(resource, payload, axiosConfig), callback);
   ChainCallback(axios.put(resource, payload, axiosConfig), callback);
 };
 
@@ -98,6 +113,20 @@ const httpDel = (resource, payload, callback) => {
   // newConfig.headers.Authorization = `Bearer ${
   //   LocalStorage.getItem("Bearer") || ""
   // }`;
+  // ChainCallback(
+  //   axios.delete(resource, newConfig, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${LocalStorage.getItem("Bearer") || ""}`,
+  //       "Access-Control-Allow-Origin": "*",
+  //       "Access-Control-Allow-Methods":
+  //         "GET, PUT, POST, DELETE, PATCH, OPTIONS",
+  //       "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  //       "Access-Control-Allow-Credentials": "true",
+  //     },
+  //   }),
+  //   callback
+  // );
   ChainCallback(axios.delete(resource, newConfig), callback);
 };
 

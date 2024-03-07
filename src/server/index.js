@@ -48,7 +48,7 @@ const FetchSales = () => {
 const FetchData = (path, payload) => {
   return new Promise((resolve, reject) => {
     httpGet(
-      `${path}/?${payload.endpoint}`,
+      `sales/?${payload.endpoint}`,
       {
         success(response) {
           resolve(response.data);
@@ -68,6 +68,48 @@ const AddAccount = (payload) => {
     httpPost("accounts", payload, {
       success(response) {
         resolve(response.data);
+      },
+      catch(response) {
+        reject(response);
+      },
+    });
+  });
+};
+
+// Fetch Single Account
+const FetchAccount = (payload) => {
+  return new Promise((resolve, reject) => {
+    httpGet(`accounts/?${payload.id}`, {
+      success(response) {
+        resolve(response.data);
+      },
+      catch(response) {
+        reject(response);
+      },
+    });
+  });
+};
+
+// Editing Account on DB
+const EditAccount = (payload) => {
+  return new Promise((resolve, reject) => {
+    httpPut(`accounts/${payload.id}`, payload, {
+      success(response) {
+        resolve(response);
+      },
+      catch(response) {
+        reject(response);
+      },
+    });
+  });
+};
+
+// Deleting Account on DB
+const DeleteAccount = (payload) => {
+  return new Promise((resolve, reject) => {
+    httpDel(`accounts/${payload.id}`, {
+      success(response) {
+        resolve(response);
       },
       catch(response) {
         reject(response);
@@ -115,6 +157,9 @@ export {
   FetchData,
   FetchSales,
   AddAccount,
+  FetchAccount,
+  EditAccount,
+  DeleteAccount,
   GetSearchResult,
   CurrentRows as currentRows,
   SearchedParams,

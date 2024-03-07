@@ -1,0 +1,25 @@
+{
+  "sales": [
+    {
+      "id": "0",
+      "unit_id": 0,
+      "unit_name": "Marketing Center",
+      "total_sales": 500000,
+      "date": "01/2023"
+    },
+    {
+      "id": "1",
+      "unit_id": 1,
+      "unit_name": "Rentals and Concessions",
+      "total_sales": 570000,
+      "date": "01/2023"
+    },
+    {
+      "id": "2",
+      "unit_id": 2,
+      "unit_name": "University Entrep. Center",
+      "total_sales": 1200000,
+      "date": "01/2023"
+    }
+  ]
+}

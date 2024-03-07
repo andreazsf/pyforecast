@@ -1,7 +1,7 @@
 <template>
   <div class="filters-component">
     <div :class="isLabelVisible && 'flex row items-center'">
-      <div v-if="isLabelVisible" class="coltext-14 text-weight-medium q-mr-lg">
+      <div v-if="isLabelVisible" class="col text-14 text-weight-medium q-mr-lg">
         Filters:
       </div>
       <div
@@ -301,15 +301,20 @@ export default {
     let fromDate = ref(null);
     let toDate = ref(null);
     let date_session = ref(null);
+
     let btnLoadingState = ref(false);
+
     let isLabelVisible = ref(props.labelVisible);
     let isSelectVisible = ref(props.selectVisible);
     let isSearchVisible = ref(props.searchVisible);
     let isFilterDateVisible = ref(props.filterDateVisible);
+
     let options = ref(props.dynamicOptions);
     let endPoint = ref(props.pathEndPoint);
+
     let isDateRangeVisible = ref(props.dateRangeVisible);
     const dateOptions = ref(props.dynamicDateOptions);
+
     let params = ref(props.parameters);
     let fieldHeight = ref(props.dynamicHeight);
 

@@ -3,14 +3,12 @@ import { useRouter, useRoute } from "vue-router";
 // import { Search, currentRows } from "../../../server/index";
 import Filters from "../../../components/FiltersComp.vue";
 import Pagination from "../../../components/PaginationComp.vue";
-// import { Search } from "../../../composables/Search";
+import { Search, currentRows } from "../../../composables/Search";
 
 // fetch sales data from db
 import {
   FetchSales,
   FetchData,
-  currentRows,
-  Search,
 } from "../../../server/index";
 
 export default {

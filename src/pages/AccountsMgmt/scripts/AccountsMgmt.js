@@ -6,7 +6,12 @@ import Filters from "../../../components/FiltersComp.vue";
 import Pagination from "../../../components/PaginationComp.vue";
 
 // fetch Accounts data from db
-import { FetchAccounts, AddAccount } from "../../../server/index";
+import {
+  FetchAccounts,
+  AddAccount,
+  EditAccount,
+  DeleteAccount,
+} from "../../../server/index";
 
 export default {
   components: {
@@ -163,7 +168,7 @@ export default {
         const newId = highestId + 1;
 
         const data = {
-          id: newId,
+          id: `${newId}`,
           prefix: form.value.prefix,
           user_type: form.value.userType,
           first_name: form.value.firstName,
@@ -186,34 +191,155 @@ export default {
             // Post notification on lower right side on the organizational management page
             position: $q.screen.width < 767 ? "top" : "bottom-right",
             classes: `${
-              status ? "om-success-notif" : "om-error-notif"
+              status ? "my-success-notif" : "my-error-notif"
             } q-px-lg q-pt-none q-pb-none q-mr-lg q-mb-md`,
             html: true,
             message: status
-              ? `<div class="text-bold">Staff Member added Succesfully!</div> A new Staff Member has been added to ${form.value.departmentOffice}.`
-              : `<div class="text-bold">Failed to add the new Staff Member!</div>`,
+              ? `<div class="text-bold">Added Succesfully!</div> A new account has been added as a/an ${form.value.userType}.`
+              : `<div class="text-bold">Failed to add the new account!</div>`,
           });
         });
+
+        // Reload the page after the notification is dismissed
+        setTimeout(() => {
+          router.go(); // Reload the page
+        }, 5000);
       });
     };
-
 
     /**
      *  Method to handle when the row is clicked.
      */
-    const selectedRow = ref();
-    let selectedRowID = null;
+    // const selectedRow = ref();
+    // let selectedRowID = null;
 
-    const onRowClick = (evt, row) => {
-      selectedRow.value = row; // selects row items
-      selectedRowID = row.id;
-      if (evt.target.nodeName === "TD") {
-        //pushes link to appointment details page
-        router.push({
-          name: "/",
-          params: { id: row.id },
+    // const onRowClick = (evt, row) => {
+    //   selectedRow.value = row; // selects row items
+    //   selectedRowID = row.id;
+    //   if (evt.target.nodeName === "TD") {
+    //     //pushes link to appointment details page
+    //     router.push({
+    //       name: "/",
+    //       params: { id: row.id },
+    //     });
+    //   }
+    // };
+
+    const fetchAll = () => {
+      form.value.prefix = "";
+      form.value.userType = "";
+      form.value.firstName = "";
+      form.value.lastName = "";
+      form.value.emailAddress = "";
+      form.value.username = "";
+      form.value.password = "";
+    };
+
+    /**
+     *  Method to handle when the row is clicked.
+     */
+    // const selectedRow = ref();
+    // let selectedRowID = null;
+
+    const pushAccount = (row) => {
+      /* Prepopulates Edit Input Fields
+      in accordance with the row id */
+      form.value.id = row.id;
+      form.value.prefix = row.prefix;
+      form.value.userType = row.user_type;
+      form.value.firstName = row.first_name;
+      form.value.lastName = row.last_name;
+      form.value.emailAddress = row.email_address;
+      form.value.username = row.username;
+      form.value.password = row.password;
+    };
+
+    // Form
+    const rowToDelete = ref({
+      id: null,
+      prefix: [],
+      userType: [],
+      firstName: "",
+      lastName: "",
+      emailAddress: "",
+      username: "",
+      password: "",
+    });
+
+    // // Define a reactive variable to store the row to delete
+    // const rowToDelete = ref(null);
+
+    // Function to remember the row values when delete button is clicked
+    const rememberRowToDelete = (row) => {
+      // Copy the row values to the reactive variable
+      rowToDelete.value.id = row.id;
+      rowToDelete.value.prefix = row.prefix;
+      rowToDelete.value.userType = row.user_type;
+      rowToDelete.value.firstName = row.first_name;
+      rowToDelete.value.lastName = row.last_name;
+      rowToDelete.value.emailAddress = row.email_address;
+      rowToDelete.value.username = row.username;
+      rowToDelete.value.password = row.password;
+    };
+
+    // Function to delete the account
+    const deleteAccount = () => {
+      // console.log(rowToDelete.value.id);
+
+      // if (!rowToDelete.value) {
+      //   // No row selected, do nothing
+      //   return;
+      // }
+
+      // Perform delete operation using the rowToDelete
+      DeleteAccount({ id: rowToDelete.value.id });
+
+      $q.notify({
+        // Post notification on lower right side on the organizational management page
+        position: $q.screen.width < 767 ? "top" : "bottom-right",
+        classes: `my-success-notif q-px-lg q-pt-none q-pb-none q-mr-lg q-mb-md`,
+        html: true,
+        message: `<div class="text-bold">Account deleted successfully!</div> ${rowToDelete.value.userType}: ${rowToDelete.value.firstName}'s account has been deleted.`,
+      });
+
+      setTimeout(() => {
+        router.go(); // Reload the page
+      }, 5000);
+    };
+
+    const editAccount = () => {
+      const dataToEdit = {
+        id: form.value.id,
+        prefix: form.value.prefix,
+        user_type: form.value.userType,
+        first_name: form.value.firstName,
+        last_name: form.value.lastName,
+        email_address: form.value.emailAddress,
+        username: form.value.username,
+        password: form.value.password,
+      };
+      console.log(dataToEdit);
+      EditAccount(dataToEdit)
+        .then((response) => {
+          let status = Boolean(response.data !== "undefined");
+          $q.notify({
+            // Post notification on lower right side on the organizational management page
+            position: $q.screen.width < 767 ? "top" : "bottom-right",
+            classes: `${
+              status ? "my-success-notif" : "my-error-notif"
+            } q-px-lg q-pt-none q-pb-none q-mr-lg q-mb-md`,
+            html: true,
+            message: status
+              ? `<div class="text-bold">Member's Info was changed succesfully!</div> ${dataToEdit.first_name}'s credentials has been updated.`
+              : `<div class="text-bold">Failed to update ${dataToEdit.first_name}'s credentials!</div>`,
+          });
+        })
+        .finally(() => {
+          // Reload the page after the notification is dismissed
+          setTimeout(() => {
+            router.go(); // Reload the page
+          }, 5000);
         });
-      }
     };
 
     return {
@@ -222,17 +348,29 @@ export default {
       columns,
       updatePagination,
       pagination,
+      currentRows,
+      Search,
       form,
       isFormValid,
       addAccount,
-      selectedRow,
-      selectedRowID,
-      onRowClick,
-      currentRows,
-      Search,
+      fetchAll,
+      pushAccount,
+      editAccount,
+      rowToDelete,
+      deleteAccount,
+      rememberRowToDelete,
+
+      // Pending functions
+      // selectedRow,
+      // selectedRowID,
+      // onRowClick,
+
+      // References
       link: ref("admins"),
       addAccountDialog: ref(false),
       editAccountDialog: ref(false),
+      deleteAccountDialog: ref(false),
+      emailAddress: ref(null),
       isPwd: ref(true),
       password: ref(""),
       prefix: ["Ms.", "Mr.", "Mrs.", "Mx."],

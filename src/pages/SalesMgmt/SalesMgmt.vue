@@ -58,6 +58,7 @@
                   :selectVisible="true"
                   :filterDateVisible="true"
                   :dateRangeVisible="true"
+                  pathEndPoint=""
                   path="sales"
                 />
               </q-item>

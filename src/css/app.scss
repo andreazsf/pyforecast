@@ -585,8 +585,14 @@ table tr th:last-child {
 
 .my-option-style-dark,
 .my-option-style-light {
+  border-radius: 10px;
+  // border: 1px solid $black;
+  border: none !important;
+
   .q-item--active {
-    color: inherit;
+    // color: inherit;
+    background-color: $primary;
+    color: $white;
   }
 
   @media screen and (max-width: $breakpoint-sm-min) {
@@ -600,8 +606,6 @@ table tr th:last-child {
   @media screen and (min-width: $breakpoint-sm-min) {
     margin-top: 10px !important;
   }
-  border-radius: 10px;
-  border: 1px solid $primary;
 
   .q-item {
     min-height: 35px;
@@ -634,9 +638,10 @@ table tr th:last-child {
     color: $white !important;
   }
 }
+
 .my-option-style-light {
   background-color: $white !important;
-  color: $placeholder;
+  color: $black;
   .q-field__native {
     color: $placeholder;
   }
@@ -1065,7 +1070,7 @@ table tr th:last-child {
   PM dialog
 */
 .my-dialog-background {
-  // background-image: url('src/resources/OnlineBooking/assets/my-dialog-background.png');
+  // background-image: url('src/resources/assets/my-dialog-background.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -1075,7 +1080,7 @@ table tr th:last-child {
   .my-dialog-container {
     width: 100%;
     height: 400px;
-    // background-image: url('src/resources/OnlineBooking/assets/my-dialog-container.png');
+    // background-image: url('src/resources/assets/my-dialog-container.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 314px;
