@@ -1,0 +1,44 @@
+{
+  "accounts": [
+    {
+      "id": "0",
+      "prefix": "Ms.",
+      "first_name": "Admin",
+      "last_name": "Admin",
+      "email_address": "admin@admin.com",
+      "username": "adminadmin",
+      "password": "********",
+      "user_type": "Admin"
+    },
+    {
+      "id": "1",
+      "prefix": "Mr.",
+      "first_name": "Admin",
+      "last_name": "Admin",
+      "email_address": "admin2@admin.com",
+      "username": "adminadmin",
+      "password": "********",
+      "user_type": "Admin"
+    },
+    {
+      "id": "2",
+      "prefix": "Mr.",
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "email_address": "janedoe@gmail.com",
+      "username": "janedoe",
+      "password": "********",
+      "user_type": "Admin"
+    },
+    {
+      "id": "3",
+      "prefix": "Ms.",
+      "user_type": "Staff",
+      "first_name": "Staff",
+      "last_name": "Sample",
+      "email_address": "staff",
+      "username": "staffsta",
+      "password": "staff"
+    }
+  ]
+}

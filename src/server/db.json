@@ -1,0 +1,105 @@
+{
+  "accounts": [
+    {
+      "id": "0",
+      "prefix": "Ms.",
+      "first_name": "Admin",
+      "last_name": "Admin",
+      "email_address": "admin@admin.com",
+      "username": "adminadmin",
+      "password": "********",
+      "user_type": "Admin"
+    },
+    {
+      "id": "1",
+      "prefix": "Mr.",
+      "first_name": "Admin",
+      "last_name": "Admin",
+      "email_address": "admin2@admin.com",
+      "username": "adminadmin",
+      "password": "********",
+      "user_type": "Admin"
+    },
+    {
+      "id": "2",
+      "prefix": "Mrs.",
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "email_address": "janedoe@gmail.com",
+      "username": "janedoe",
+      "password": "********",
+      "user_type": "Admin"
+    },
+    {
+      "id": "3",
+      "prefix": "Mr.",
+      "first_name": "Juan",
+      "last_name": "Dela Cruz",
+      "email_address": "jdc@gmail.com",
+      "username": "juandc",
+      "password": "********",
+      "user_type": "Staff"
+    }
+  ],
+  "inventory_books": [
+    {
+      "id": "0",
+      "inventory_id": 0,
+      "inventory_name": "Books",
+      "product_name": "Mathematics in Modern World",
+      "quantity_sold": 500,
+      "total_sales": 15000,
+      "date": "11/2023"
+    },
+    {
+      "id": "1",
+      "inventory_id": 0,
+      "inventory_name": "Books",
+      "product_name": "Ethics",
+      "quantity_sold": 450,
+      "total_sales": 13000,
+      "date": "11/2023"
+    },
+    {
+      "id": "2",
+      "inventory_id": 0,
+      "inventory_name": "Books",
+      "product_name": "Gender and Society",
+      "quantity_sold": 800,
+      "total_sales": 20000,
+      "date": "11/2023"
+    },
+    {
+      "id": "3",
+      "inventory_id": 0,
+      "inventory_name": "Books",
+      "product_name": "Art Appreciation",
+      "quantity_sold": 600,
+      "total_sales": 18000,
+      "date": "11/2023"
+    }
+  ],
+  "sales": [
+    {
+      "id": "0",
+      "unit_id": 0,
+      "unit_name": "Marketing Center",
+      "total_sales": 500000,
+      "date": "01/2023"
+    },
+    {
+      "id": "1",
+      "unit_id": 1,
+      "unit_name": "Rentals and Concessions",
+      "total_sales": 570000,
+      "date": "01/2023"
+    },
+    {
+      "id": "2",
+      "unit_id": 2,
+      "unit_name": "University Entrep. Center",
+      "total_sales": 1200000,
+      "date": "01/2023"
+    }
+  ]
+}

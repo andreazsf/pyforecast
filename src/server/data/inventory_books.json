@@ -1,0 +1,40 @@
+{
+  "inventory_books": [
+    {
+      "id": "0",
+      "inventory_id": 0,
+      "inventory_name": "Books",
+      "product_name": "Mathematics in Modern World",
+      "quantity_sold": 500,
+      "total_sales": 15000,
+      "date": "11/2023"
+    },
+    {
+      "id": "1",
+      "inventory_id": 0,
+      "inventory_name": "Books",
+      "product_name": "Ethics",
+      "quantity_sold": 450,
+      "total_sales": 13000,
+      "date": "11/2023"
+    },
+    {
+      "id": "2",
+      "inventory_id": 0,
+      "inventory_name": "Books",
+      "product_name": "Gender and Society",
+      "quantity_sold": 800,
+      "total_sales": 20000,
+      "date": "11/2023"
+    },
+    {
+      "id": "3",
+      "inventory_id": 0,
+      "inventory_name": "Books",
+      "product_name": "Art Appreciation",
+      "quantity_sold": 600,
+      "total_sales": 18000,
+      "date": "11/2023"
+    }
+  ]
+}
